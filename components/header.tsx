@@ -30,7 +30,7 @@ export default function Header() {
               <Link href={"/products"}>Продукты</Link>
             </li>
             <li className="text-[16px]">
-              <p>Контакты</p>
+              <Link href={"/contact"}>Контакты</Link>
             </li>
             <li className="text-[16px]  hover:text-[#FFD700] transition duration-300">
               <Link href={"/payment"}>Оплата и Доставка</Link>

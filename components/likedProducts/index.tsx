@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { getLikedProducts } from "@/service/like.service"; // Import the getLikedProducts function
+import { getLikedProducts } from "@/service/like.service";
 import { HeartFilled } from "@ant-design/icons";
 import Link from "next/link";
 
@@ -15,6 +15,7 @@ interface Product {
 
 export default function LikedProducts() {
   const [data, setData] = useState<Product[]>([]);
+  const [likedProducts, setLikedProducts] = useState<number[]>([]); // Liked product IDs
 
   const getData = async () => {
     try {
@@ -31,6 +32,14 @@ export default function LikedProducts() {
     getData();
   }, []);
 
+  const toggleLike = (productId: number) => {
+    setLikedProducts(prev =>
+      prev.includes(productId)
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId]
+    );
+  };
+
   return (
     <div className="container mx-auto mt-[70px]">
       <div className="flex justify-between items-center mb-4 flex-wrap">
@@ -40,8 +49,17 @@ export default function LikedProducts() {
         {data.map((product: Product) => (
           <div key={product.product_id} className="relative">
             <div className="w-[250px] h-[350px] bg-white flex flex-col items-center justify-between relative shadow-md">
-              <div className="absolute right-[20px] top-[20px] cursor-pointer">
-                <HeartFilled style={{ color: "yellow" }} />
+              <div
+                className="absolute right-[20px] top-[20px] cursor-pointer"
+                onClick={() => toggleLike(product.product_id)}
+              >
+                <HeartFilled
+                  style={{
+                    color: likedProducts.includes(product.product_id)
+                      ? "red"
+                      : "yellow",
+                  }}
+                />
               </div>
               <div className="w-[150px] h-[194px] grid justify-center items-center z-[999]">
                 <Image
@@ -68,7 +86,6 @@ export default function LikedProducts() {
                 )}
               </div>
               <Link
-                // onClick={() => Cookie.set("product_id", product.product_id)}
                 href={`/${product.product_id}`}
                 className="py-[10px] w-full border-2 bg-[#FBD029] rounded-lg text-center text-[14px] sm:text-[16px] md:text-[18px]"
               >

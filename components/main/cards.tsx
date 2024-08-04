@@ -7,7 +7,9 @@ import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
+import http from "@/api";
 import { getProduct } from "@/service/product.service";
+
 interface Product {
   product_id: number;
   product_name: string;
@@ -90,7 +92,7 @@ function Section({ title, defaultImage, data, setData }: SectionProps) {
 
     try {
       const response = await http.post(`/like/${productId}`);
-      if (!response.status === 200) {
+      if (response.status !== 200) {
         console.error(`Failed to like product with id ${productId}`);
       }
     } catch (error) {
@@ -100,13 +102,13 @@ function Section({ title, defaultImage, data, setData }: SectionProps) {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4 flex-wrap">
+      <div className="flex justify-center items-center mb-4 flex-wrap">
         <h1 className="text-[24px]">{title}</h1>
       </div>
       <div className="flex justify-around relative flex-wrap gap-4 md:gap-8">
         {data.map((product: Product) => (
-          <div key={product.product_id} className="relative">
-            <div className="w-[250px] h-[350px] bg-white flex flex-col items-center justify-between relative shadow-md">
+          <div key={product.product_id} className="relative card-container">
+            <div className="card w-[250px] h-[350px] bg-white flex flex-col items-center justify-between relative shadow-md border border-gray-300 rounded-lg hover:shadow-xl hover:border-yellow-500 transition-shadow duration-200 ease-in-out">
               <div
                 className="absolute right-[20px] top-[20px] cursor-pointer"
                 onClick={() => handleLikeClick(product.product_id)}
@@ -141,9 +143,12 @@ function Section({ title, defaultImage, data, setData }: SectionProps) {
                 )}
               </div>
               <Link
-                onClick={() => Cookie.set("product_id", product.product_id)}
-                href={`/${product.product_id}`}
-                className="py-[10px] w-full border-2 bg-[#FBD029] rounded-lg text-center text-[14px] sm:text-[16px] md:text-[18px]"
+                onClick={() => {
+                  Cookie.set("product_id", product.product_id.toString());
+                  Cookie.set("product_image", product.image_url[0]);
+                }}
+                href={`/${product.product_id.toString()}`}
+                className="py-[10px] w-full border-2 bg-[#FBD029] rounded-lg text-center text-[14px] sm:text-[16px] md:text-[18px] hover:bg-yellow-500 transition-colors duration-300 ease-in-out"
               >
                 Корзина
               </Link>

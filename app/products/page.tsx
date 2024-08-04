@@ -23,11 +23,11 @@ export default function Page() {
         <div className="flex mb-2 justify-between mx-auto xl:w-[1050px] sm:w-[auto] ml-2 flex-wrap ">
           <div className="flex gap-2">
             <Select className="w-[150px]" defaultValue="Сортировать">
-              <Select.Option value={12}>12</Select.Option>
-              <Select.Option value={20}>20</Select.Option>
+              <Select.Option value={12}>2</Select.Option>
+              <Select.Option value={20}>4</Select.Option>
             </Select>
             <Select className="w-[150px]" defaultValue="Все продукты">
-              <Select.Option value="">test-1</Select.Option>
+              <Select.Option value="">test</Select.Option>
             </Select>
           </div>
           <div className="flex gap-2">
