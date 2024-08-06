@@ -1,5 +1,4 @@
 import http from "@/api";
-// import Cookies from "js-cookie";
 
 interface Product {
   id: number;
