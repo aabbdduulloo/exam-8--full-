@@ -24,7 +24,7 @@ export default function Final() {
 
           <div className="w-full lg:w-[600px] flex flex-col justify-between">
             <div className="h-[200px] lg:h-[350px] bg-white grid justify-center items-center pl-[90px]">
-              <Image src={img4} alt="" className="w-[60%]"/>
+              <Image src={img4} alt="" className="w-[60%]" />
             </div>
             <button className="h-[40px] bg-white mt-2 lg:mt-0">
               Посмотреть Все

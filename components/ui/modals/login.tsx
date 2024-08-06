@@ -42,6 +42,10 @@ const App: React.FC = () => {
     setIsModalOpen(false);
   };
 
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <>
       <button
@@ -52,8 +56,10 @@ const App: React.FC = () => {
       </button>
       <Modal
         open={isModalOpen}
-        onCancel={closeModal}
-        footer={null} // Avoid using Ant Design's default footer
+        onOk={formik.handleSubmit}
+        onCancel={handleCancel}
+        okButtonProps={{ className: "custom-ok-button" }}
+        okText="Login"
         className="p-[25px]"
       >
         <form
@@ -90,9 +96,6 @@ const App: React.FC = () => {
             ) : null}
           </div>
           <button type="button">Забыли пароль?</button>
-          <button type="submit" className="custom-ok-button">
-            Login
-          </button>
         </form>
       </Modal>
     </>

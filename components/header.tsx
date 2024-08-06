@@ -92,7 +92,8 @@ export default function Header() {
             </button>
             <button className="px-4 py-2 bg-[#F2F2F2] rounded-lg flex items-center gap-1">
               <ShoppingCartOutlined />
-              <span className="hidden sm:inline">Корзина</span>
+              <Link href={"/basket"}>Корзина</Link>
+              <span className="hidden sm:inline"></span>
             </button>
           </div>
         </div>

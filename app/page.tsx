@@ -2,14 +2,14 @@
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 
-import { Slider, Cards, FinalPart } from "@/components";
+import { Slider, Cards, UseFul } from "@/components";
 
 export default function Home() {
   return (
     <div className="mt-6">
       <Slider />
       <Cards />
-      <FinalPart />
+      <UseFul />
       <ToastContainer />
     </div>
   );

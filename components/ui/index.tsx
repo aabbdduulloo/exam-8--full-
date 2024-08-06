@@ -1,3 +1,2 @@
-import Login from "./modals/login"
-
-export { Login }
+import Login from "@/components/ui/modals/login";
+export { Login };

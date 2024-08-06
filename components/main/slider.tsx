@@ -66,11 +66,13 @@ export default function slider() {
       </div>
       <div className="bg-white w-full mb-[70px]">
         <div className="container mx-auto">
-          <h1 className="text-[36px] mb-5 ">Каталог</h1>
+          <h1 className="text-[24px] mb-5 flex flex-col items-center justify-center">
+            Каталог
+          </h1>
           <Carousel infinite={true} autoplay>
             {arr.map(e => (
               <div key={e}>
-                <div className="flex justify-between flex-wrap relative bottom-1">
+                <div className="flex justify-between flex-wrap relative bottom-1 gap-5 p-4">
                   <div className="w-[180px] h-[240px] bg-[#D3E5F2] flex flex-col items-center justify-center gap-5 text-[24px]">
                     Тренажеры
                     <Image src={img4} alt="" />

@@ -26,10 +26,13 @@ export default function Cards() {
     try {
       const response = await getProduct(4, 1);
       if (response.status === 200) {
+        const likedProducts = JSON.parse(
+          localStorage.getItem("likedProducts") || "[]"
+        );
         const productsWithLikeState = response.data.products.map(
           (product: any) => ({
             ...product,
-            liked: false,
+            liked: likedProducts.includes(product.product_id),
           })
         );
         setData(productsWithLikeState);
@@ -43,6 +46,38 @@ export default function Cards() {
     getData();
   }, []);
 
+  const handleLikeClick = async (productId: number) => {
+    setData(prevData =>
+      prevData.map((product: Product) =>
+        product.product_id === productId
+          ? { ...product, liked: !product.liked }
+          : product
+      )
+    );
+
+    const likedProducts = JSON.parse(
+      localStorage.getItem("likedProducts") || "[]"
+    );
+    if (likedProducts.includes(productId)) {
+      const updatedLikes = likedProducts.filter(
+        (id: number) => id !== productId
+      );
+      localStorage.setItem("likedProducts", JSON.stringify(updatedLikes));
+    } else {
+      likedProducts.push(productId);
+      localStorage.setItem("likedProducts", JSON.stringify(likedProducts));
+    }
+
+    try {
+      const response = await http.post(`/like/${productId}`);
+      if (response.status !== 201) {
+        console.error(`Failed to like product with id ${productId}`);
+      }
+    } catch (error) {
+      console.error(`Error liking product with id ${productId}:`, error);
+    }
+  };
+
   return (
     <div>
       <div className="container mx-auto ">
@@ -50,7 +85,7 @@ export default function Cards() {
           title="Акция"
           defaultImage={img5}
           data={data}
-          setData={setData}
+          handleLikeClick={handleLikeClick}
         />
       </div>
       <div className="container mx-auto mt-[70px]">
@@ -58,7 +93,7 @@ export default function Cards() {
           title="Новинки"
           defaultImage={img6}
           data={data}
-          setData={setData}
+          handleLikeClick={handleLikeClick}
         />
       </div>
       <div className="container mx-auto mt-[70px]">
@@ -66,7 +101,7 @@ export default function Cards() {
           title="Продукты"
           defaultImage={img7}
           data={data}
-          setData={setData}
+          handleLikeClick={handleLikeClick}
         />
       </div>
     </div>
@@ -77,29 +112,10 @@ interface SectionProps {
   title: string;
   defaultImage: any;
   data: Product[];
-  setData: React.Dispatch<React.SetStateAction<Product[]>>;
+  handleLikeClick: (productId: number) => void;
 }
 
-function Section({ title, defaultImage, data, setData }: SectionProps) {
-  const handleLikeClick = async (productId: number) => {
-    setData(prevData =>
-      prevData.map((product: Product) =>
-        product.product_id === productId
-          ? { ...product, liked: !product.liked }
-          : product
-      )
-    );
-
-    try {
-      const response = await http.post(`/like/${productId}`);
-      if (response.status !== 200) {
-        console.error(`Failed to like product with id ${productId}`);
-      }
-    } catch (error) {
-      console.error(`Error liking product with id ${productId}:`, error);
-    }
-  };
-
+function Section({ title, defaultImage, data, handleLikeClick }: SectionProps) {
   return (
     <div>
       <div className="flex justify-center items-center mb-4 flex-wrap">

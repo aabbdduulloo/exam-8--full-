@@ -12,8 +12,8 @@ export default function WishlistCard() {
 
   const getData = async () => {
     try {
-      const res = await getLike(10, 1); // Endpointni tekshiring
-      setData(res?.data.products || []); // To'g'ri ma'lumotlarni olishga ishonch hosil qiling
+      const res = await getLike(10, 1);
+      setData(res?.data.products || []);
     } catch (error) {
       console.error("Error fetching liked products:", error);
     }

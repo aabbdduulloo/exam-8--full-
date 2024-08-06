@@ -15,7 +15,7 @@ interface Product {
 
 export default function LikedProducts() {
   const [data, setData] = useState<Product[]>([]);
-  const [likedProducts, setLikedProducts] = useState<number[]>([]); // Liked product IDs
+  const [likedProducts, setLikedProducts] = useState<number[]>([]);
 
   const getData = async () => {
     try {
@@ -29,15 +29,19 @@ export default function LikedProducts() {
   };
 
   useEffect(() => {
+    const savedLikes = JSON.parse(
+      localStorage.getItem("likedProducts") || "[]"
+    );
+    setLikedProducts(savedLikes);
     getData();
   }, []);
 
   const toggleLike = (productId: number) => {
-    setLikedProducts(prev =>
-      prev.includes(productId)
-        ? prev.filter(id => id !== productId)
-        : [...prev, productId]
-    );
+    const updatedLikes = likedProducts.includes(productId)
+      ? likedProducts.filter(id => id !== productId)
+      : [...likedProducts, productId];
+    setLikedProducts(updatedLikes);
+    localStorage.setItem("likedProducts", JSON.stringify(updatedLikes));
   };
 
   return (
